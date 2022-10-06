@@ -31,6 +31,33 @@ export function addPerson(
     }
   });
 }
+export function changeWarehouse(
+  personId: mongoose.Types.ObjectId,
+  newWarehouse: mongoose.Types.ObjectId
+) {
+  return new Promise<void>((resolve, reject) => {
+    person
+      .findByIdAndUpdate(personId, { warehouse: newWarehouse })
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+export function deletePerson(personId: mongoose.Types.ObjectId) {
+  return new Promise<void>((resolve, reject) => {
+    person
+      .findByIdAndDelete(personId)
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject("Person not found!" + error);
+      });
+  });
+}
 
 function validSchedule(schedule: any): boolean {
   console.log(schedule);
