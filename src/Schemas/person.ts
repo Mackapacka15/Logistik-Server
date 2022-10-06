@@ -1,12 +1,12 @@
 import mongoose, { InferSchemaType } from "mongoose";
-import order from "./orderItem.js";
-import schedule from "./schedule.js";
+import { scheduleSchema } from "./schedule.js";
 
 const personSchema = new mongoose.Schema({
+  name: { type: String, require: true },
   warehouse: mongoose.Types.ObjectId,
   role: { type: String, require: true },
-  curentOrder: order.schema,
-  shedule: schedule.schema,
+  curentOrder: mongoose.Types.ObjectId,
+  schedule: scheduleSchema,
 });
 
 export type personModel = InferSchemaType<typeof personSchema>;

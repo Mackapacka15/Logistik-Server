@@ -1,85 +1,70 @@
 import mongoose, { InferSchemaType } from "mongoose";
 
-const scheduleSchema = new mongoose.Schema({
+export const scheduleSchema = new mongoose.Schema({
   mon: {
-    type: [String, String],
-    require: true,
-    validate: {
-      validator: function (v: string): boolean {
-        return validate(v);
-      },
+    start: {
+      type: String,
+    },
+    end: {
+      type: String,
     },
   },
   tue: {
-    type: [String, String],
-    require: true,
-    validate: {
-      validator: function (v: string): boolean {
-        return validate(v);
-      },
+    start: {
+      type: String,
+    },
+    end: {
+      type: String,
     },
   },
   wed: {
-    type: [String, String],
-    require: true,
-    validate: {
-      validator: function (v: string): boolean {
-        return validate(v);
-      },
+    start: {
+      type: String,
+    },
+    end: {
+      type: String,
     },
   },
   thu: {
-    type: [String, String],
-    require: true,
-    validate: {
-      validator: function (v: string): boolean {
-        return validate(v);
-      },
+    start: {
+      type: String,
+    },
+    end: {
+      type: String,
     },
   },
   fri: {
-    type: [String, String],
-    require: true,
-    validate: {
-      validator: function (v: string): boolean {
-        return validate(v);
-      },
+    start: {
+      type: String,
+    },
+    end: {
+      type: String,
     },
   },
   sat: {
-    type: [String, String],
-    require: true,
-    validate: {
-      validator: function (v: string): boolean {
-        return validate(v);
-      },
+    start: {
+      type: String,
+    },
+    end: {
+      type: String,
     },
   },
   sun: {
-    type: [String, String],
-    require: true,
-    validate: {
-      validator: function (v: string): boolean {
-        return validate(v);
-      },
+    start: {
+      type: String,
+    },
+    end: {
+      type: String,
     },
   },
 });
 
+
+
 function validate(v: string) {
-  let day = v.split("-");
-  if (day.length >= 3) return false;
-  if (validformat(day[0]) && validformat(day[1])) return true;
-  return false;
+  let individualNumber = v.split(":");
+
+  return true;
 }
 
-function validformat(day: string): boolean {
-  let split = day.split(":");
-  if (split.length >= 3) return false;
-  if (split[0].length === 2 && split[1].length === 2) return true;
-  return false;
-}
-
-export type shippmentModel = InferSchemaType<typeof scheduleSchema>;
-
-export default mongoose.model("sheduleSchema", scheduleSchema);
+export type scheduleModel = InferSchemaType<typeof scheduleSchema>;
