@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import personRouter from "./routers/personRouter.js";
+import warehouseRouter from "./routers/warehouseRouter.js";
 
 mongoose.connect("mongodb://localhost:27017/logistiksystem").then(() => {
   console.log("Connected");
@@ -12,6 +13,8 @@ const port = 3000;
 app.use(express.json());
 
 app.use("/person", personRouter);
+
+app.use("/warehouse", warehouseRouter);
 
 app.listen(port, () => {
   console.log(`Server started on  http://localhost:${port}`);

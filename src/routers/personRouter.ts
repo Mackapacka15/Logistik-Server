@@ -1,4 +1,4 @@
-import { response, Router } from "express";
+import { Router } from "express";
 import person from "../Schemas/person.js";
 import {
   addPerson,
