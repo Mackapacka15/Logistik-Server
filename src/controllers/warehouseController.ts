@@ -13,3 +13,15 @@ export function createWarehouse(name: string) {
       });
   });
 }
+export function removeWarehouse(id: mongoose.Types.ObjectId) {
+  return new Promise<void>((resolve, reject) => {
+    warehouse
+      .findByIdAndRemove(id)
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
