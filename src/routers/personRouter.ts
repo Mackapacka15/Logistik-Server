@@ -4,6 +4,7 @@ import {
   addPerson,
   changeWarehouse,
   deletePerson,
+  getWorkingWorkers,
 } from "../controllers/personController.js";
 import { scheduleModel, scheduleSchema } from "../Schemas/schedule.js";
 import { Types } from "mongoose";
@@ -12,6 +13,19 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   res.send(await person.find({})).status(200);
+});
+
+router.get("/working:day", async (req, res) => {
+  if (!req.params.day) {
+    res.sendStatus(400);
+  }
+  getWorkingWorkers(req.params.day)
+    .then((people) => {
+      res.status(200).send(people);
+    })
+    .catch((error) => {
+      res.status(400).send(error);
+    });
 });
 
 router.post("/add", async (req, res) => {
@@ -25,9 +39,7 @@ router.post("/add", async (req, res) => {
 });
 
 router.put("/changewarehouse", async (req, res) => {
-  let id = new Types.ObjectId(req.body.newWarehouse);
-
-  await changeWarehouse(req.body.personId, id)
+  await changeWarehouse(req.body.personId, req.body.newWarehouse)
     .then(() => {
       res.sendStatus(200);
     })

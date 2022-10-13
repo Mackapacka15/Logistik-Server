@@ -8,6 +8,9 @@ export const scheduleSchema = new mongoose.Schema({
     end: {
       type: String,
     },
+    working: {
+      type: Boolean,
+    },
   },
   tue: {
     start: {
@@ -15,6 +18,9 @@ export const scheduleSchema = new mongoose.Schema({
     },
     end: {
       type: String,
+    },
+    working: {
+      type: Boolean,
     },
   },
   wed: {
@@ -24,6 +30,9 @@ export const scheduleSchema = new mongoose.Schema({
     end: {
       type: String,
     },
+    working: {
+      type: Boolean,
+    },
   },
   thu: {
     start: {
@@ -31,6 +40,9 @@ export const scheduleSchema = new mongoose.Schema({
     },
     end: {
       type: String,
+    },
+    working: {
+      type: Boolean,
     },
   },
   fri: {
@@ -40,6 +52,9 @@ export const scheduleSchema = new mongoose.Schema({
     end: {
       type: String,
     },
+    working: {
+      type: Boolean,
+    },
   },
   sat: {
     start: {
@@ -47,6 +62,9 @@ export const scheduleSchema = new mongoose.Schema({
     },
     end: {
       type: String,
+    },
+    working: {
+      type: Boolean,
     },
   },
   sun: {
@@ -56,15 +74,10 @@ export const scheduleSchema = new mongoose.Schema({
     end: {
       type: String,
     },
+    working: {
+      type: Boolean,
+    },
   },
 });
-
-
-
-function validate(v: string) {
-  let individualNumber = v.split(":");
-
-  return true;
-}
 
 export type scheduleModel = InferSchemaType<typeof scheduleSchema>;

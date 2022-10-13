@@ -1,9 +1,9 @@
 import mongoose, { InferSchemaType } from "mongoose";
 
 const itemSchema = new mongoose.Schema({
-  name: String,
-  balance: Number,
-  place: String,
+  name: { type: String, required: true },
+  balance: { type: Number, required: true },
+  place: { type: String, required: true },
 });
 
 export type itemModel = InferSchemaType<typeof itemSchema>;

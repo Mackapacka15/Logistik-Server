@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import warehouse from "../Schemas/warehouse.js";
+import item from "../Schemas/item.js";
 
 export function createWarehouse(name: string) {
   return new Promise<void>((resolve, reject) => {
@@ -25,3 +26,4 @@ export function removeWarehouse(id: mongoose.Types.ObjectId) {
       });
   });
 }
+export function addItem(itemId: mongoose.Types.ObjectId) {}
