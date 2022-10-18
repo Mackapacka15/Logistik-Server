@@ -1,14 +1,14 @@
 import mongoose, { InferSchemaType } from "mongoose";
-import { itemSchema } from "./item.js";
+import { warehouseItemSchema } from "./warehouseItem.js";
 
 const warehouseSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  items: { type: [itemSchema] },
+  items: { type: [warehouseItemSchema] },
 });
 
 export type warehouseModel = InferSchemaType<typeof warehouseSchema>;
 
-export default mongoose.model("warhouseSchema", warehouseSchema);
+export default mongoose.model("warehouseSchema", warehouseSchema);

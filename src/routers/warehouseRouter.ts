@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.post("/add", (req, res) => {
+router.post("/", (req, res) => {
   createWarehouse(req.body.name)
     .then(() => {
       res.sendStatus(200);
@@ -18,7 +18,7 @@ router.post("/add", (req, res) => {
     });
 });
 
-router.delete("/removewarehouse", (req, res) => {
+router.delete("/", (req, res) => {
   removeWarehouse(req.body.id)
     .then(() => {
       res.sendStatus(200);
@@ -28,8 +28,8 @@ router.delete("/removewarehouse", (req, res) => {
     });
 });
 
-router.put("/additem", (req, res) => {
-  addItem(req.body.warehouseId, req.body.name, req.body.balance, req.body.place)
+router.put("/item", (req, res) => {
+  addItem(req.body.warehouseId, req.body.itemName, req.body.balance, req.body.place)
     .then(() => {
       res.sendStatus(200);
     })
@@ -38,7 +38,7 @@ router.put("/additem", (req, res) => {
     });
 });
 
-router.get("/finditem", (req, res) => {
+router.get("/item", (req, res) => {
   itemInfo({
     itemName: req.body.itemName,
     warehouseId: req.body.warehouseId,

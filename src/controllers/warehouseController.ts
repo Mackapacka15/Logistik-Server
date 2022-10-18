@@ -1,10 +1,14 @@
 import mongoose from "mongoose";
-import { itemModel, itemSchema } from "../Schemas/item.js";
+import item from "../Schemas/item.js";
 import warehouse, { warehouseModel } from "../Schemas/warehouse.js";
+import {
+  warehouseItemSchema,
+  warehouseItemModel,
+} from "../Schemas/warehouseItem.js";
 
 type returnInfo = {
   name: String;
-  data: { item: itemModel };
+  data: { item: warehouseItemModel };
 };
 
 export function createWarehouse(name: string) {
@@ -34,44 +38,40 @@ export function removeWarehouse(id: mongoose.Types.ObjectId) {
 
 export function addItem(
   warehouseId: mongoose.Types.ObjectId,
-  namein: String,
+  itemNameIn: String,
   balanceIn: Number,
   placeIn: String
 ) {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>(async (resolve, reject) => {
+    if (!warehouseId || !itemNameIn || !balanceIn || !placeIn) {
+      reject("Invalid Inputs");
+    }
+
+    let wh = await warehouse.findById(warehouseId);
+    if (!wh) {
+      reject("No warehouse found");
+      return;
+    }
+    let addItem = await item.findOne({ name: itemNameIn });
+
+    if (!addItem) {
+      reject("No item found. Try creating one first");
+      return;
+    }
+
     let newItem = {
-      name: namein,
+      parentItemId: addItem._id,
       balance: balanceIn,
       place: placeIn,
     };
-
-    if (!warehouseId) reject("Invalid Warehouse");
-    if (
-      newItem.balance === undefined ||
-      newItem.name === undefined ||
-      newItem.place === undefined
-    ) {
-      reject("No Inputs");
-    }
-
-    warehouse.findById(warehouseId, function (err: any, result: any) {
-      if (!err) {
-        if (!result) {
-          reject("Warehouse was not found");
-        } else {
-          result.items.push(newItem);
-          result.save(function (saveerr: any, saveresult: any) {
-            if (!saveerr) {
-              resolve();
-            } else {
-              reject(saveerr.message);
-            }
-          });
-        }
-      } else {
-        reject(err.message);
-      }
-    });
+    wh.items.push(newItem);
+    wh.save()
+      .then(() => {
+        resolve();
+      })
+      .catch((err) => {
+        reject(err);
+      });
   });
 }
 
