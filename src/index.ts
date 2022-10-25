@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import personRouter from "./routers/personRouter.js";
 import warehouseRouter from "./routers/warehouseRouter.js";
 import itemRouter from "./routers/itemRouter.js";
+import orderRouter from "./routers/orderRouter.js";
 
 mongoose.connect("mongodb://localhost:27017/logistiksystem").then(() => {
   console.log("Connected");
@@ -18,6 +19,8 @@ app.use("/person", personRouter);
 app.use("/warehouse", warehouseRouter);
 
 app.use("/item", itemRouter);
+
+app.use("/order", orderRouter);
 
 app.listen(port, () => {
   console.log(`Server started on  http://localhost:${port}`);

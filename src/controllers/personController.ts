@@ -34,7 +34,10 @@ export function addPerson(
 
 export function getWorkingWorkers(dayin: string) {
   return new Promise<any>((resolve, reject) => {
+    console.log(dayin);
+
     let day = dayConvert(dayin);
+    console.log("Day: " + day);
 
     person
       .find()
@@ -96,13 +99,15 @@ export function getWorkingWorkers(dayin: string) {
       });
   });
   function dayConvert(dayin: string): string {
-    let day = dayin.substring(1).toLowerCase();
+    let day = dayin.toLowerCase();
+    console.log(day);
+
     if (day.length === 3) return dayin;
 
     switch (day) {
       case "monday":
         return "mon";
-      case "tueseday":
+      case "tuesday":
         return "tue";
       case "wednesday":
         return "wed";
@@ -144,6 +149,48 @@ export function deletePerson(personId: mongoose.Types.ObjectId) {
       })
       .catch((error) => {
         reject("Person not found!" + error);
+      });
+  });
+}
+
+//Lagerarbetare kan ge sig själv redan plockade ordrar. Deliverer kan ta ej plockade ordrar
+export function setWorkingOrder(
+  orderId: mongoose.Types.ObjectId,
+  personId: mongoose.Types.ObjectId
+) {
+  return new Promise<void>((resolve, reject) => {
+    person
+      .findByIdAndUpdate(personId, { currentOrder: orderId })
+      .then((result) => {
+        if (!result) reject("No person found");
+
+        resolve();
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+export function avalableWorkers(rolein: string) {
+  return new Promise<any>((resolve, reject) => {
+    console.log(rolein);
+
+    let day = getDay();
+    let sendData: any = [];
+    getWorkingWorkers(day)
+      .then((result) => {
+        result.forEach((item: personModel) => {
+          if (item.role === rolein) {
+            sendData.push(item);
+          }
+        });
+      })
+      .then(() => {
+        resolve(sendData);
+      })
+      .catch((err) => {
+        reject(err);
       });
   });
 }
@@ -235,4 +282,27 @@ function validDay(day: any): boolean {
     return false;
   }
   return true;
+}
+
+function getDay(): string {
+  let today = new Date();
+  let weekday = today.getUTCDay();
+  switch (weekday) {
+    case 1:
+      return "monday";
+    case 2:
+      return "tuesday";
+    case 3:
+      return "wednesday";
+    case 4:
+      return "thursday";
+    case 5:
+      return "friday";
+    case 6:
+      return "saturday";
+    case 7:
+      return "sunday";
+    default:
+      return "";
+  }
 }

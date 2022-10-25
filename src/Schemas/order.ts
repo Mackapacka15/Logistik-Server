@@ -1,10 +1,16 @@
 import mongoose, { InferSchemaType } from "mongoose";
-import orderItem from "./orderItem";
+import { orderItemSchema } from "./orderItem.js";
 
 const orderSchema = new mongoose.Schema({
-  items: { type: [orderItem] },
+  customer: { type: String, required: true },
+  items: { type: [orderItemSchema] },
+  date: { type: Date, default: Date.now() },
+  pickedBy: { type: mongoose.Types.ObjectId, default: null },
+  pickedDate: { type: Date, default: null },
+  sendDate: { type: Date, default: null },
+  orderNumber: { type: Number, default: null },
 });
 
-export type shippmentModel = InferSchemaType<typeof orderSchema>;
+export type orderSchema = InferSchemaType<typeof orderSchema>;
 
 export default mongoose.model("orderSchema", orderSchema);

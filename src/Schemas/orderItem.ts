@@ -1,10 +1,9 @@
 import mongoose, { InferSchemaType } from "mongoose";
 
-const orderItemSchema = new mongoose.Schema({
-  item: { type: [mongoose.Types.ObjectId], require: true },
+export const orderItemSchema = new mongoose.Schema({
+  parentId: { type: mongoose.Types.ObjectId, require: true },
+  name: String,
   ammount: { type: Number, require: true },
 });
 
-export type orderModel = InferSchemaType<typeof orderItemSchema>;
-
-export default mongoose.model("orderItemSchema", orderItemSchema);
+export type orderItemSchema = InferSchemaType<typeof orderItemSchema>;

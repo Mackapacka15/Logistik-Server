@@ -5,7 +5,7 @@ const personSchema = new mongoose.Schema({
   name: { type: String, require: true },
   warehouse: mongoose.Types.ObjectId,
   role: { type: String, require: true },
-  curentOrder: mongoose.Types.ObjectId,
+  currentOrder: { type: mongoose.Types.ObjectId, default: null },
   schedule: scheduleSchema,
 });
 
