@@ -1,22 +1,31 @@
-# /person
+# REST API
 
-## get /person/
+#### Install
+
+    npm install
+
+#### Run Server
+
+    npm run start
+
+# Requests
+## /person
+
+### GET /person/
 
 Returns a list of all workers
 
-## get /person/working/:day
+### GET /person/working/:day
 
 Returns a list of all workers who work during a specified day
 
-
 Input day instead of :day
-
 
 Can be either in thre letters ex. mon or with full name ex. monday
 
-#### ex. /person/working/mon
+ **_ex. /person/working/mon_**
 
-## post /person/
+### POST /person/
 
 Creates a new worker
 
@@ -44,7 +53,7 @@ Request body:
 }
 ```
 
-## put /person/changewarehouse
+### PUT /person/changewarehouse
 
 Changes the working wharehouse of a worker
 
@@ -57,7 +66,7 @@ Body ex:
 }
 ```
 
-## delete /person/removeperson
+### DELETE /person/removeperson
 
 Removes a worker
 
@@ -69,7 +78,7 @@ Body ex:
 }
 ```
 
-## put /person/setorder
+### PUT /person/setorder
 
 Dets a workers current working order
 
@@ -82,7 +91,7 @@ Body ex:
 }
 ```
 
-## get /person/avalable/:role
+### GET /person/avalable/:role
 
 Returns a list of all workers widhout a order as currentorder and working today
 
@@ -90,10 +99,9 @@ Replace :role widh the role you want to seach after
 
 ex. /person/avalable/:picker
 
+## /warehouse
 
-# /warehouse
-
-## post /warehouse/
+### POST /warehouse/
 
 Creates a new warehouse
 
@@ -103,7 +111,7 @@ Body ex:
 { "name": "Älta" }
 ```
 
-## delete /warehouse/
+### DELETE /warehouse/
 
 Deletes a warehouse
 
@@ -113,7 +121,7 @@ Body ex:
 { "id": "634e5d2df1a1de0194838eaa" }
 ```
 
-## put /warehouse/item
+### PUT /warehouse/item
 
 Adds an item to the warehouse
 
@@ -130,7 +138,7 @@ Body ex:
 
 **_Make sure the item exists before you try and add it to a warehouse_**
 
-## get /warehouse/item
+### GET /warehouse/item
 
 Returns a list of all items that match a name
 
@@ -156,9 +164,9 @@ _Find item in specific warehouse by warehouse id_
 { "itemName": "Vintertäcke", "warehouseId": "634e8ee50cdd38090649cd5d" }
 ```
 
-# /item
+## /item
 
-## post /item/
+### POST /item/
 
 Creates an item
 
@@ -172,7 +180,7 @@ Body ex:
 
 # /order
 
-## post /order/
+### POST /order/
 
 Creates a new order
 
@@ -193,11 +201,11 @@ Body ex:
 Add more objects to orderItems array to add more items to the order.
 **_All items must already exist in the system._**
 
-## get /order/
+### GET /order/
 
 Returns a list of all orders that have not been picked
 
-## put /order/picked
+### PUT /order/picked
 
 Mark an order as picked
 
@@ -210,7 +218,7 @@ Body ex:
 }
 ```
 
-## put /order/sent
+### PUT /order/sent
 
 Marks an order as sent
 
@@ -223,18 +231,18 @@ Body ex:
 }
 ```
 
-## get /order/notsent
+### GET /order/notsent
 
 Returns oldes order that hasn't been sent
 
-## get /order/totalvalue/:month
+### GET /order/totalvalue/:month
 
 Returns the total value of all orders sent during specified month.
 Replace :month with the desired month
 
 **Use the number of the month! January = 0, February = 1, ... , December = 11**
 
-## get /order/expensive/:month
+### GET /order/expensive/:month
 
 Returns the most expesnsive order sent that month. Replace :month with the desired month.
 
