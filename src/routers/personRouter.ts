@@ -30,7 +30,7 @@ router.get("/working/:day", (req, res) => {
     });
 });
 
-router.post("/add", (req, res) => {
+router.post("/", (req, res) => {
   addPerson(req.body.person.name, req.body.person.role, req.body.schedule)
     .then(() => {
       res.status(200).send("OK");
@@ -51,7 +51,7 @@ router.put("/changewarehouse", (req, res) => {
 });
 
 router.delete("/removeperson", (req, res) => {
-  deletePerson(req.body.personID)
+  deletePerson(req.body.personId)
     .then(() => {
       res.sendStatus(200);
     })
@@ -60,9 +60,7 @@ router.delete("/removeperson", (req, res) => {
     });
 });
 
-router.put("/setorder", async (req, res) => {
-  console.log(req.body);
-
+router.put("/setorder", (req, res) => {
   setWorkingOrder(req.body.orderId, req.body.personId)
     .then(() => {
       res.sendStatus(200);

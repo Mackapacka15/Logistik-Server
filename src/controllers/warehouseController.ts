@@ -117,51 +117,61 @@ export function itemInfo(data: {
 
 function findItemsByName(itemName: string) {
   return new Promise<returnInfo[]>(async (resolve, reject) => {
+    console.log("ItemsByName");
+
     let returnItems: returnInfo[] = [];
-    warehouse
-      .find({})
-      .then((result) => {
-        result.forEach((wh) => {
-          wh.items.forEach((item: any) => {
-            if (item.name === itemName) {
-              returnItems.push({ name: wh.name, data: { item } });
-            }
-          });
-        });
-        if (returnItems.length !== 0) {
-          resolve(returnItems);
-        }
-        reject("No items found");
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-}
-function warehouseIdFind(id: string, name: string) {
-  return new Promise<returnInfo>((resolve, reject) => {
-    warehouse.findById(id, function (result: warehouseModel, err: string) {
-      if (err) reject("No warehouse width that id");
-      result.items.forEach((item: any) => {
-        if (item.name === name) {
-          resolve({ name: item.name, data: { item } });
+
+    let warehouses: any = await warehouse.find().populate("items.parentItemId");
+
+    console.log("query");
+    console.log(warehouses[0].items[0]);
+
+    warehouses.forEach((wh: any) => {
+      wh.items.forEach((tempItem: any) => {
+        if (tempItem.parentItemId.name === itemName) {
+          returnItems.push({ name: wh.name, data: { item: tempItem } });
+          console.log("Success");
         }
       });
     });
+
+    if (returnItems.length !== 0) {
+      resolve(returnItems);
+    }
+    reject("No items found");
+  });
+}
+function warehouseIdFind(id: string, name: string) {
+  return new Promise<returnInfo>(async (resolve, reject) => {
+    let wh = await warehouse.findById(id).populate("items.parentItemId");
+    if (!wh) {
+      reject("No warehouse with provided id");
+      return;
+    }
+
+    wh.items.forEach((tempItem: any) => {
+      if (tempItem.parentItemId.name === name) {
+        resolve({ name: (wh as any).name, data: { item: tempItem } });
+      }
+    });
+    reject("No items found");
   });
 }
 function warehouseNameFind(warehouseName: string, name: string) {
-  return new Promise<returnInfo>((resolve, reject) => {
-    warehouse.find(
-      { name: warehouseName },
-      function (result: warehouseModel, err: string) {
-        if (err) reject("No warehouse width that name");
-        result.items.forEach((item: any) => {
-          if (item.name === name) {
-            resolve({ name: item.name, data: { item } });
-          }
-        });
+  return new Promise<returnInfo>(async (resolve, reject) => {
+    let wh = await warehouse
+      .findOne({ name: warehouseName })
+      .populate("items.parentItemId");
+    if (!wh) {
+      reject("No warehouse with provided name");
+      return;
+    }
+
+    wh.items.forEach((tempItem: any) => {
+      if (tempItem.parentItemId.name === name) {
+        resolve({ name: (wh as any).name, data: { item: tempItem } });
       }
-    );
+    });
+    reject("No items found");
   });
 }

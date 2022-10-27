@@ -8,7 +8,9 @@ const orderSchema = new mongoose.Schema({
   pickedBy: { type: mongoose.Types.ObjectId, default: null },
   pickedDate: { type: Date, default: null },
   sendDate: { type: Date, default: null },
+  sentBy: { type: mongoose.Types.ObjectId, default: null },
   orderNumber: { type: Number, default: null },
+  orderValue: { type: Number },
 });
 
 export type orderSchema = InferSchemaType<typeof orderSchema>;
